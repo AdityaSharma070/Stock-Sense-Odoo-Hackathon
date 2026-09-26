@@ -1,8 +1,10 @@
-export default function EmptyState({ label = 'No records found', hint }) {
+// src/components/ui/EmptyState.jsx
+export default function EmptyState({ label = 'No records found', hint, action }) {
   return (
-    <div className="py-10 px-5 text-center">
-      <div className="text-[12.5px] text-ink-soft">{label}</div>
-      {hint && <div className="text-[11px] text-ink-soft/70 mt-1">{hint}</div>}
+    <div className="flex flex-col items-center justify-center gap-2 py-14 text-center">
+      <p className="text-sm text-ink-soft">{label}</p>
+      {hint && <p className="text-xs text-ink-soft/70">{hint}</p>}
+      {action && <div className="mt-1">{action}</div>}
     </div>
   );
 }

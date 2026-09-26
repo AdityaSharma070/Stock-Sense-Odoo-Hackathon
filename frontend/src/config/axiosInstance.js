@@ -1,3 +1,4 @@
+// src/config/axiosInstance.js
 // SHARED — owned by Person 1. Copied here verbatim per StockSense_Frontend_Structure.md
 // so feature api/ files have something to import against while auth is built.
 import axios from 'axios';

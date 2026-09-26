@@ -1,14 +1,42 @@
-export default function Input({ label, error, className = '', ...props }) {
+// src/components/ui/Input.jsx
+// Usage: <Input label="Name" mono={false} error={errors.name} {...register} />
+// Set mono for SKU / reference / OTP fields.
+
+export default function Input({
+  label,
+  hint,
+  error,
+  mono = false,
+  disabled = false,
+  className = '',
+  id,
+  ...rest
+}) {
+  const inputId = id || label?.toLowerCase().replace(/\s+/g, '-');
   return (
-    <label className="block mb-3.5">
-      {label && <span className="block text-[11px] font-semibold text-ink-soft mb-1">{label}</span>}
+    <div className="mb-4">
+      {label && (
+        <label htmlFor={inputId} className="mb-1.5 block text-xs font-semibold text-ink">
+          {label}
+        </label>
+      )}
       <input
-        className={`w-full bg-surface border rounded px-2.5 py-2 text-[13px] font-body
-          focus:outline-none focus:ring-2 focus:ring-accent/25 focus:border-accent
-          ${error ? 'border-bad' : 'border-line'} ${className}`}
-        {...props}
+        id={inputId}
+        disabled={disabled}
+        className={[
+          'w-full',
+          mono ? 'font-mono' : 'font-sans',
+          error ? 'border-bad focus:ring-bad focus:border-bad' : '',
+          disabled ? 'bg-bg text-ink-soft cursor-not-allowed' : '',
+          className,
+        ].join(' ')}
+        {...rest}
       />
-      {error && <span className="block text-[11px] text-bad mt-1">{error}</span>}
-    </label>
+      {error ? (
+        <p className="mt-1.5 text-xs text-bad">{error}</p>
+      ) : hint ? (
+        <p className="mt-1.5 text-xs text-ink-soft">{hint}</p>
+      ) : null}
+    </div>
   );
 }

@@ -1,8 +1,7 @@
-// Consistent page heading used across every feature: a small tag, an h1,
-// a one-line description, and an optional action slot (e.g. "+ New Product").
-export default function PageWrapper({ tag, title, description, actions, children }) {
+// src/components/layout/PageWrapper.jsx
+export default function PageWrapper({ tag, title, description, actions, className = '', children }) {
   return (
-    <section>
+    <section className={className}>
       <div className="flex items-baseline justify-between flex-wrap gap-2.5 mb-4">
         <div>
           {tag && (
@@ -10,7 +9,7 @@ export default function PageWrapper({ tag, title, description, actions, children
               {tag}
             </span>
           )}
-          <h1 className="font-heading font-bold text-[20px] mt-1.5">{title}</h1>
+          <h1 className="font-display font-bold text-[20px] mt-1.5">{title}</h1>
           {description && <p className="text-ink-soft text-[12.5px] mt-0.5">{description}</p>}
         </div>
         {actions && <div className="flex gap-2.5">{actions}</div>}

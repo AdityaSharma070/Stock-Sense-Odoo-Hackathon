@@ -1,14 +1,22 @@
+// src/components/ui/ConfirmDialog.jsx
 import Modal from './Modal';
 import Button from './Button';
 
-// Used before irreversible actions — validating a receipt, cancelling an order.
-export default function ConfirmDialog({ open, title = 'Are you sure?', message, confirmLabel = 'Confirm', onConfirm, onCancel }) {
+export default function ConfirmDialog({
+  open,
+  title = 'Are you sure?',
+  message,
+  confirmLabel = 'Confirm',
+  danger = false,
+  onConfirm,
+  onCancel,
+}) {
   return (
-    <Modal open={open} onClose={onCancel} title={title}>
-      {message && <p className="text-[13px] text-ink-soft mb-5">{message}</p>}
-      <div className="flex gap-2.5 justify-end">
-        <Button variant="ghost" onClick={onCancel}>Cancel</Button>
-        <Button variant="accent" onClick={onConfirm}>{confirmLabel}</Button>
+    <Modal open={open} onClose={onCancel} title={title} width="max-w-sm">
+      {message && <p className="mb-5 text-sm text-ink-soft">{message}</p>}
+      <div className="flex justify-end gap-2">
+        <Button variant="outline" onClick={onCancel}>Cancel</Button>
+        <Button variant={danger ? 'danger' : 'accent'} onClick={onConfirm}>{confirmLabel}</Button>
       </div>
     </Modal>
   );

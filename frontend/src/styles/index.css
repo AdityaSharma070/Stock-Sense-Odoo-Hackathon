@@ -5,8 +5,16 @@
 @tailwind utilities;
 
 body {
-  @apply bg-bg text-ink font-body;
+  @apply bg-bg text-ink font-body text-sm;
 }
 
 /* StockSense design tokens — keep this file the single source of truth.
    If the palette or type scale ever changes, change it here, not in components. */
+
+/* Sharp-corner inputs everywhere, focus ring uses accent — never override per-component */
+input, select, textarea {
+  @apply border border-line rounded bg-surface px-3 py-2.5 text-sm text-ink;
+}
+input:focus, select:focus, textarea:focus {
+  @apply outline-none ring-2 ring-accent border-accent;
+}

@@ -1,11 +1,20 @@
-export default function Select({ label, options = [], className = '', ...props }) {
+// src/components/ui/Select.jsx
+// Usage: <Select label="Warehouse" options={[{value:'wh1', label:'Main Warehouse'}]} {...register} />
+// Also accepts plain string options: options={['Main Warehouse', 'Overflow Store']}
+
+export default function Select({ label, error, options = [], id, className = '', ...rest }) {
+  const selectId = id || label?.toLowerCase().replace(/\s+/g, '-');
   return (
-    <label className="block mb-3.5">
-      {label && <span className="block text-[11px] font-semibold text-ink-soft mb-1">{label}</span>}
+    <div className="mb-4">
+      {label && (
+        <label htmlFor={selectId} className="mb-1.5 block text-xs font-semibold text-ink">
+          {label}
+        </label>
+      )}
       <select
-        className={`w-full bg-surface border border-line rounded px-2.5 py-2 text-[13px] font-body
-          focus:outline-none focus:ring-2 focus:ring-accent/25 focus:border-accent ${className}`}
-        {...props}
+        id={selectId}
+        className={['w-full', error ? 'border-bad focus:ring-bad focus:border-bad' : '', className].join(' ')}
+        {...rest}
       >
         {options.map((opt) => (
           <option key={opt.value ?? opt} value={opt.value ?? opt}>
@@ -13,6 +22,7 @@ export default function Select({ label, options = [], className = '', ...props }
           </option>
         ))}
       </select>
-    </label>
+      {error && <p className="mt-1.5 text-xs text-bad">{error}</p>}
+    </div>
   );
 }
