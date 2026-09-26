@@ -1,0 +1,195 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  manager
+  staff
+}
+
+enum Status {
+  draft
+  waiting
+  ready
+  done
+  cancelled
+}
+
+enum MoveType {
+  receipt
+  delivery
+  adjustment
+  transfer
+}
+
+model users {
+  id           String         @id @default(uuid())
+  name         String
+  email        String         @unique
+  password     String
+  role         Role           @default(staff)
+  otp          String?
+  otp_expires  DateTime?
+  created_at   DateTime       @default(now())
+
+  receipts     receipts[]
+  deliveries   deliveries[]
+  adjustments  adjustments[]
+  move_history move_history[]
+}
+
+model warehouses {
+  id         String      @id @default(uuid())
+  name       String
+  short_code String      @unique
+  address    String?
+  created_at DateTime    @default(now())
+
+  locations  locations[]
+  receipts   receipts[]
+  deliveries deliveries[]
+}
+
+model locations {
+  id             String           @id @default(uuid())
+  warehouse_id   String
+  name           String
+  short_code     String
+  created_at     DateTime         @default(now())
+
+  warehouse      warehouses       @relation(fields: [warehouse_id], references: [id])
+  stock          stock[]
+  receipt_lines  receipt_lines[]
+  delivery_lines delivery_lines[]
+  adjustments    adjustments[]
+  move_from      move_history[]   @relation("from_location")
+  move_to        move_history[]   @relation("to_location")
+}
+
+model categories {
+  id       String     @id @default(uuid())
+  name     String     @unique
+
+  products products[]
+}
+
+model products {
+  id             String           @id @default(uuid())
+  name           String
+  sku            String           @unique
+  category_id    String?
+  unit           String
+  created_at     DateTime         @default(now())
+
+  category       categories?      @relation(fields: [category_id], references: [id])
+  stock          stock[]
+  receipt_lines  receipt_lines[]
+  delivery_lines delivery_lines[]
+  adjustments    adjustments[]
+  move_history   move_history[]
+}
+
+model stock {
+  id          String    @id @default(uuid())
+  product_id  String
+  location_id String
+  quantity    Decimal   @default(0)
+
+  product     products  @relation(fields: [product_id], references: [id])
+  location    locations @relation(fields: [location_id], references: [id])
+
+  @@unique([product_id, location_id])
+}
+
+model receipts {
+  id             String          @id @default(uuid())
+  reference      String          @unique
+  supplier       String?
+  warehouse_id   String
+  status         Status          @default(draft)
+  scheduled_date DateTime?
+  created_by     String
+  created_at     DateTime        @default(now())
+
+  warehouse      warehouses      @relation(fields: [warehouse_id], references: [id])
+  creator        users            @relation(fields: [created_by], references: [id])
+  receipt_lines  receipt_lines[]
+}
+
+model receipt_lines {
+  id          String    @id @default(uuid())
+  receipt_id  String
+  product_id  String
+  quantity    Decimal
+  location_id String
+
+  receipt     receipts  @relation(fields: [receipt_id], references: [id], onDelete: Cascade)
+  product     products  @relation(fields: [product_id], references: [id])
+  location    locations @relation(fields: [location_id], references: [id])
+}
+
+model deliveries {
+  id             String           @id @default(uuid())
+  reference      String           @unique
+  customer       String?
+  warehouse_id   String
+  status         Status           @default(draft)
+  scheduled_date DateTime?
+  created_by     String
+  created_at     DateTime         @default(now())
+
+  warehouse      warehouses       @relation(fields: [warehouse_id], references: [id])
+  creator        users            @relation(fields: [created_by], references: [id])
+  delivery_lines delivery_lines[]
+}
+
+model delivery_lines {
+  id          String     @id @default(uuid())
+  delivery_id String
+  product_id  String
+  quantity    Decimal
+  location_id String
+
+  delivery    deliveries @relation(fields: [delivery_id], references: [id], onDelete: Cascade)
+  product     products   @relation(fields: [product_id], references: [id])
+  location    locations  @relation(fields: [location_id], references: [id])
+}
+
+model adjustments {
+  id           String    @id @default(uuid())
+  reference    String    @unique
+  product_id   String
+  location_id  String
+  old_quantity Decimal
+  new_quantity Decimal
+  reason       String?
+  adjusted_by  String
+  created_at   DateTime  @default(now())
+
+  product      products  @relation(fields: [product_id], references: [id])
+  location     locations @relation(fields: [location_id], references: [id])
+  adjuster     users     @relation(fields: [adjusted_by], references: [id])
+}
+
+model move_history {
+  id            String     @id @default(uuid())
+  type          MoveType
+  reference_id  String?
+  product_id    String
+  from_location String?
+  to_location   String?
+  quantity      Decimal
+  performed_by  String
+  created_at    DateTime   @default(now())
+
+  product       products   @relation(fields: [product_id], references: [id])
+  from_loc      locations? @relation("from_location", fields: [from_location], references: [id])
+  to_loc        locations? @relation("to_location", fields: [to_location], references: [id])
+  performer     users      @relation(fields: [performed_by], references: [id])
+}
+
