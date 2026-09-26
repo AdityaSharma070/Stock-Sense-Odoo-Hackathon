@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import PageWrapper from '../../../components/layout/PageWrapper';
 import ReceiptForm from '../components/ReceiptForm';
 

@@ -1,5 +1,5 @@
 // src/features/adjustments/components/AdjustmentList.jsx
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import Table from '../../../components/ui/Table';
 import EmptyState from '../../../components/ui/EmptyState';
 import { formatDate } from '../../../utils/formatDate';

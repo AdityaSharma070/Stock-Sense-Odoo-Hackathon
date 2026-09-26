@@ -1,6 +1,6 @@
 // src/features/alerts/components/LowStockBanner.jsx
 // Small warning shown on the Dashboard (Person 1 imports this into DashboardPage).
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 export default function LowStockBanner({ count = 0, outOfStockCount = 0 }) {
   if (count === 0) return null;

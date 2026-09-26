@@ -1,1 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap');
 @import "tailwindcss";
+
+/* StockSense design tokens — single source of truth. Change the palette/type
+   scale here only; components reference these via bg-accent, font-display, etc. */
+@theme {
+  --color-bg: #F3F4F0;
+  --color-surface: #FFFFFF;
+  --color-ink: #1B1F1C;
+  --color-ink-soft: #5B6459;
+  --color-border: #DCE0D7;
+  --color-line: #C9CEC2;
+  --color-accent: #E2A33B;
+  --color-accent-ink: #4A3106;
+  --color-good: #3F7A52;
+  --color-warn: #B8863A;
+  --color-bad: #B14B3B;
+  --color-side: #1E2320;
+  --color-side-ink: #E7E8E3;
+  --color-side-line: #343B36;
+  --color-side-soft: #93998F;
+
+  --font-display: "Space Grotesk", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --radius: 2px;
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+}
+
+body {
+  @apply bg-bg text-ink font-sans text-sm;
+}
+
+/* Sharp-corner inputs everywhere, focus ring uses accent — never override per-component */
+input, select, textarea {
+  @apply border border-line rounded bg-surface px-3 py-2.5 text-sm text-ink;
+}
+input:focus, select:focus, textarea:focus {
+  @apply outline-none ring-2 ring-accent border-accent;
+}

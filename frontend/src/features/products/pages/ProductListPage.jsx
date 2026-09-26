@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import PageWrapper from '../../../components/layout/PageWrapper';
 import Button from '../../../components/ui/Button';
 import ProductSearch from '../components/ProductSearch';
