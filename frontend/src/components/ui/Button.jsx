@@ -1,19 +1,34 @@
-// SHARED — variants: primary (dark, for auth submits), accent (amber, for
-// save/create/validate actions), ghost (secondary), danger (destructive/cancel).
-const VARIANTS = {
-  primary: 'bg-ink text-white border-ink hover:bg-[#333a35]',
-  accent: 'bg-accent text-accent-ink border-accent hover:bg-[#d6952f]',
-  ghost: 'bg-transparent text-ink border-line hover:border-ink-soft',
-  danger: 'bg-transparent text-bad border-bad hover:bg-[#F5DAD4]',
+// src/components/ui/Button.jsx
+const variants = {
+  primary: 'bg-ink text-white border-ink hover:opacity-90',
+  accent: 'bg-accent text-accent-ink border-accent hover:opacity-90',
+  outline: 'bg-transparent text-ink border-line hover:bg-bg',
+  ghost: 'bg-transparent text-ink-soft border-transparent hover:text-ink',
+  danger: 'bg-bad text-white border-bad hover:opacity-90',
 };
 
-export default function Button({ variant = 'ghost', className = '', children, ...props }) {
+export default function Button({
+  variant = 'primary',
+  fullWidth = false,
+  disabled = false,
+  type = 'button',
+  className = '',
+  children,
+  ...rest
+}) {
   return (
     <button
-      className={`px-3.5 py-2 text-[12.5px] font-semibold font-body border rounded
-        transition-colors disabled:opacity-35 disabled:cursor-not-allowed
-        ${VARIANTS[variant]} ${className}`}
-      {...props}
+      type={type}
+      disabled={disabled}
+      className={[
+        'inline-flex items-center justify-center gap-1.5 rounded border px-4 py-2.5',
+        'text-sm font-semibold font-sans transition-opacity',
+        variants[variant],
+        fullWidth ? 'w-full' : '',
+        disabled ? 'opacity-50 cursor-not-allowed hover:opacity-50' : 'cursor-pointer',
+        className,
+      ].join(' ')}
+      {...rest}
     >
       {children}
     </button>

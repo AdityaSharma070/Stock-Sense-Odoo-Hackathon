@@ -1,13 +1,10 @@
-import { getStatusClasses } from '../../utils/statusColors';
+import { getStatusEntry } from '../../utils/statusColors';
 
-// Status pill: Draft / Waiting / Ready / Done / Cancelled.
-export default function Badge({ status }) {
+export default function Badge({ status, children }) {
+  const entry = getStatusEntry(status);
   return (
-    <span
-      className={`inline-block px-2.5 py-0.5 rounded-full text-[10.5px] font-semibold
-        tracking-wide capitalize ${getStatusClasses(status)}`}
-    >
-      {status}
+    <span className={['inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold', entry.className].join(' ')}>
+      {children ?? entry.label}
     </span>
   );
 }
