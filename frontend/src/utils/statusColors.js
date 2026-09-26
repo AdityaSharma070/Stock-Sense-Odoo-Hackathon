@@ -1,13 +1,11 @@
-// Maps a lifecycle status to the Tailwind classes used by <Badge />.
-// Every feature (receipts, deliveries, adjustments) shares this — don't
-// redefine status colors locally, import from here.
-export const STATUS_STYLES = {
-  draft: 'bg-border text-ink-soft',
-  waiting: 'bg-[#F7E7C6] text-warn',
-  ready: 'bg-[#DCEFE1] text-good',
-  done: 'bg-[#D8E6E0] text-[#2F5C46]',
-  cancelled: 'bg-[#F5DAD4] text-bad',
+export const STATUS_MAP = {
+  draft: { label: 'Draft', className: 'bg-border text-ink-soft' },
+  waiting: { label: 'Waiting', className: 'bg-[#FBF0DB] text-warn' },
+  ready: { label: 'Ready', className: 'bg-[#E7F0E8] text-good' },
+  done: { label: 'Done', className: 'bg-[#E9EAE7] text-ink-soft' },
+  cancelled: { label: 'Cancelled', className: 'bg-[#F3DCD8] text-bad' },
 };
 
-export const getStatusClasses = (status) =>
-  STATUS_STYLES[String(status).toLowerCase()] || STATUS_STYLES.draft;
+export function getStatusEntry(status) {
+  return STATUS_MAP[status?.toLowerCase()] ?? { label: status, className: 'bg-border text-ink-soft' };
+}
