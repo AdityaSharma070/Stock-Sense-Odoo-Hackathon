@@ -1,6 +1,6 @@
 // src/components/layout/Topbar.jsx
 import { useAuth } from '../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import Button from '../ui/Button';
 
 export default function Topbar({ showSearch = true }) {

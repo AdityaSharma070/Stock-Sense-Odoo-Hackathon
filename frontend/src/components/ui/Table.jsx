@@ -14,7 +14,7 @@ export default function Table({ columns, rows, renderCell, onRowClick, emptyLabe
                 key={col.key}
                 className="border-b border-border px-3.5 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wide text-ink-soft whitespace-nowrap"
               >
-                {col.label}
+                {col.label ?? col.header}
               </th>
             ))}
           </tr>
